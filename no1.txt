@@ -1,0 +1,7 @@
+## Introduction
+
+### Why
+
+ - The set of applications in the Kubernetes cluster is potentially large and complex;
+ - Manually inspecting and administering them, and keeping different environments (e.g. production, acceptance) in sync is laborious and difficult;
+ - Cooperating with multiple tenants in this shared cluster increases the complexity.
