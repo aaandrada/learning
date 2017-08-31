@@ -1,0 +1,176 @@
+---
+###
+
+#name = a producer of data 
+#description = what is in that data
+#location = is the data available on the J:\ drive or in the DataHub,
+  #in the later case it will be accessible via impala
+#owner =  person responsible for  data content, context, and associated 
+  # business rules 
+#job titles = people using the outcome of the dataflow
+#topics = category of data, where messages are stored and published 
+#sinks = 
+
+source: 
+    - name: weather_source_ebase
+      description: weather data from ebase
+      location: J:\DataHub\Ebase2DataHub\Weather
+      owner: Mathias Veenman
+      job titles: 
+        - forecasters
+        - analysts 
+        - portfolio experts
+      topics: sys_weather_raw
+      sinks: weather_sink_hdfs 
+      
+    - name: twitter_rage_source
+      description: twitter flow
+      location:  http://hue.datahub.eetp.local/impala/
+      owner: Mathias Veenman
+      job titles: 
+        - traders
+      topics: 
+         - app_twitter_rage
+         - app_twitter_rage_users
+      sinks: 
+         - twitter_rage_tweets_sink_cassandra
+         - twitter_sink_hdfs
+         - twitter_rage_users_sink_cassandra
+
+     - name: trayport_source
+       description: trayportXML responses both raw and processed into trades 
+         and contracts 
+       location: http://hue.datahub.eetp.local/impala/
+       owner: Joshua Ratha
+       job titles:
+         - analysts
+         - traders
+       topics: 
+         - sys_trayport_raw
+         - sys_trayport_raw_normalised_proc
+       sinks: trayport_sink_hdfs  
+         
+     - name: tennet_source
+       description: tennet data downloaded over HTTP
+       location: http://hue.datahub.eetp.local/impala/
+       owner: Vincent Visser
+       job titles:
+         - imbalance experts
+         - analysts
+       topics: 
+          - sys_tennet_balance_delta_raw
+          - sys_tennet_bid_ladder_raw
+          - sys_tennet_bid_ladder_total_raw
+          - sys_tennet_imbalance_price_raw
+          - sys_tennet_price_ladder_raw
+          - sys_tennet_settled_rrp_raw
+       sinks: tennet_sink_hdfs 
+       
+      - name: stpm_model_spread_forecast_mock
+        description:  
+        location: J:\DataHub\DataHub2Ebase\STPM\SpreadForecast
+        owner: Vincent Visser
+        job titles:
+          - imbalance experts
+          - analysts
+          - intraday trader
+        topics: app_stpm_spread_forecast
+        sinks: stpm_sink_hdfs
+        
+      - name: rtwind_source_ebase
+        description:
+        location: J:\DataHub\Ebase2DataHub\Wind\RT
+        owner: Tamar Nieuwenhuizen
+        job titles: 
+          - intraday trader
+          - imbalance experts
+        topics: 
+          - sys_ebase_power_validated_proc 
+          - sys_ebase_power_raw
+          - sys_ebase_power_validated_proc
+          - sys_ebase_power_upscaled_proc
+        sinks: rtwind_sink_hdfs
+        
+      - name: reuters_source
+        description: hydro, power demand, power supply, power exchange,  
+          prices, weather forecast
+        location: http://hue.datahub.eetp.local/impala/
+        owner: Vincent Visser
+        job titles:
+          - analysts
+          - traders
+          - intraday traders
+          - imbalance experts
+          - spot experts
+        topics: reuters_raw
+        sinks: 
+          - reuters_sink_cassandra
+          - reuters_sink_hdfs
+        
+      - name: prices_source
+        description: TTF price forecast of the model of Jos
+        location: J:\DataHub\Ebase2DataHub\Prices\TTF
+        owner: Jos de Zwaan
+        job titles: spot experts
+        topics: sys_prices_raw
+        sinks: price_sink_hdfs
+        
+      - name: nationalgrid_source
+        description:
+        location: http://hue.datahub.eetp.local/impala/
+        owner: Vincent Visser
+        job titles:analysts
+        topics: 
+          - sys_nationalgrid_mipi_raw
+          - sys_nationalgrid_ifr_raw
+        sinks: nationalgrid_sink_hdfs
+        
+      - name: mkonline_source
+        description:
+        location: http://hue.datahub.eetp.local/impala/
+        owner: Vincent Visser
+        job titles: 
+          - analysts
+          - intraday trader
+          - imbalance experts
+        topics: sys_mkonline_igcc_raw
+        sinks: mkonline_sink_hdfs
+        
+      - name: knmi_source
+        description:
+        location: http://hue.datahub.eetp.local/impala/
+        owner: Mathias Veenman
+        job titles:
+          - intraday traders
+          - imbalance experts
+        topics: knmi_stations_raw
+        sinks: knmi_sink_hdfs
+        
+      - name: gas_source_ebase
+        description:
+        location: J:\DataHub\Ebase2DataHub\Gas
+        owner: Shayla Jansen
+        job titles:
+            - forecasters
+        topics: sys_gas_raw
+        sinks: gas_sink_hdfs
+        
+      - name: price_forecaster_source_mock
+        description:
+        location: http://hue.datahub.eetp.local/impala/
+        owner: Mathias Veenman
+        job titles: 
+          - spot experts
+          - analysts
+          - traders 
+        topics: sys_forecast_prices_raw
+        sinks: forecast_prices_sink_hdfs
+        
+      - name: be_gas_model_source_mock
+        description:
+        location: J:\DataHub\DataHub2Ebase\Shipper\Processed 
+        owner: Shayla Jansen
+        users:
+          - forecasters
+        topics: sys_gas_gc_proc
+        sinks: be_gas_midel_sink_hdfs
